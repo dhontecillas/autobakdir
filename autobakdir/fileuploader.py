@@ -37,9 +37,6 @@ def aws_upload_file(fullpath_name,
     if not s3_client or not bucket_name:
         print( 'no client , no bucket {} {}'.format(s3_client, bucket_name))
         return False
-    def percent_cb(complete):
-        sys.stdout.write('  * {} * '.format(complete))
-        sys.stdout.flush()
     try:
         # ContentType : image/jpeg
         if content_type:
@@ -48,8 +45,7 @@ def aws_upload_file(fullpath_name,
             extra_args = {}
         res = s3_client.upload_file(fullpath_name, bucket_name,
                                    os.path.basename(fullpath_name),
-                                   ExtraArgs=extra_args,
-                                   Callback=percent_cb)
+                                   ExtraArgs=extra_args)
         return True
     except Exception as ex:
         print('upload exception')
